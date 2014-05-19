@@ -1,0 +1,111 @@
+<% content_for :js do %>
+<script>
+$(function () {
+    $(document).ready(function() {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+    
+        var chart;
+        $('#container').highcharts({
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function() {
+    
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function() {
+
+                            var x = 0 
+                            var y = 0
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "/home/latest",
+                                    dataType: "json",
+                                    success: function(data){
+                                        x = data.x
+                                        y = data.y
+                                        series.addPoint([x, y], true, true);
+                                       // alert("data:" + x + ", " + y) // Will alert Max
+                                    }        
+                                });
+                            
+                        }, <%=Setting.where("key=?","check_frequency").first.value.to_i*1000%>);
+                    }
+                }
+            },
+            title: {
+                text: 'Live Heating'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Temperature'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Temperature',
+                marker: {
+                    enabled: false
+                },
+                data: (function() {
+                    // generate an array of random data
+                    var data = [], time = (new Date()).getTime(), i;
+    				var data=[
+
+<%= raw @temperatures.map{|s| {y: s.value, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+]	
+                    return data;
+                })(),
+                turboThreshold: 200000
+            }]
+        });
+    });
+    
+});
+    </script>
+
+
+<% end %>
+
+<%=@number_of_points%>
+
+<div class="row">
+  <div class="small-12 large-12 columns">
+  	<div id="container">
+  		
+  	</div>
+  </div>
+</div>
+
+
+
+
+
