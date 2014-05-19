@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  resources :sensors
+
   resources :settings
 
   get 'home/index'
   get 'home/latest'
+  get 'home/gauge'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

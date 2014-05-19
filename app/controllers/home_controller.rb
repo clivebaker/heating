@@ -16,12 +16,8 @@ class HomeController < ApplicationController
 
 
 def latest
-	
 	@temperature = Temperature.last
-
 	render :json => {x: @temperature.created_at.to_i*1000 , y: @temperature.value}
-
-
 end
 
 end

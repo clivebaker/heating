@@ -31,6 +31,8 @@ gem 'foundation-rails'
 gem 'highcharts-rails', '~> 4.0.1'
 gem 'execjs'
 gem 'therubyracer'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
 
 # Use unicorn as the app server
  gem 'unicorn'

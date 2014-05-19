@@ -12,6 +12,7 @@ $(function () {
         $('#container').highcharts({
             chart: {
                 type: 'spline',
+                zoomType: 'x',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
                 events: {
@@ -93,17 +94,27 @@ $(function () {
     </script>
 
 
+
+<%= render "gauge" %>
+
 <% end %>
 
-<%=@number_of_points%>
+
 
 <div class="row">
-  <div class="small-12 large-12 columns">
-  	<div id="container">
-  		
-  	</div>
+  <div class="small-9 large-9 columns">
+    <div id="container">
+        
+    </div>
+  </div>
+    <div class="small-3 large-3 columns">
+    <div id="container-speed">
+        
+    </div>
   </div>
 </div>
+
+
 
 
 

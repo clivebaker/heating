@@ -9,8 +9,9 @@ namespace :temperature do
   task :test => :environment do |task, args|
 
       while true do 
-        puts "Created: #{Temperature.create(value: rand(210..250)/10.to_f)}"
-        sleep Setting.where("key=?","check_frequency").first.value.to_i
+        wait_time = Setting.where("key=?","check_frequency").first.value.to_i
+        puts "Created: #{Temperature.create(value: rand(210..250)/10.to_f).inspect} Next one in #{wait_time} seconds"
+        sleep wait_time
       end
 
   end
@@ -19,13 +20,18 @@ namespace :temperature do
   desc "get latest data point"
   task :sensor => :environment do |task, args|
 
-  	filename = "/home/pi/sensor/w1_slave"
-
+    @sensors = Sensor.all
+  	
   	while true do 
-  		f = File.read(filename)
-  		temp =  f[f.index("t=")+2,7].to_f/1000
-  		t = Temperature.create(value: temp)
-      puts "Created: #{t.inspect}"
+  	
+      @sensors.each do |sensor|
+        filename = "/sys/bus/w1/devices/#{sensor.unique_id}/w1_slave"
+      	f = File.read(filename)
+    		temp =  f[f.index("t=")+2,7].to_f/1000
+    		t = Temperature.create(value: temp, sensor_id: sensor.id)
+        puts "Created: #{t.inspect}"
+      end
+
       sleep Setting.where("key=?","check_frequency").first.value.to_i
     end
 

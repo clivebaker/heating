@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140518211703) do
+ActiveRecord::Schema.define(version: 20140519201048) do
+
+  create_table "sensors", force: true do |t|
+    t.string   "name"
+    t.string   "unique_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "settings", force: true do |t|
     t.string   "key"
@@ -24,6 +31,7 @@ ActiveRecord::Schema.define(version: 20140518211703) do
     t.float    "value",      limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sensor_id"
   end
 
 end
