@@ -1,49 +1,49 @@
 <script>
-$(function () {
-    
+	$(function () {
+	
     var gaugeOptions = {
-    
-        chart: {
-            type: 'solidgauge'
-        },
-        
-        title: null,
-        
-        pane: {
-            center: ['50%', '55%'],
-            size: '100%',
-            startAngle: -90,
-            endAngle: 90,
+	
+	    chart: {
+	        type: 'solidgauge'
+	    },
+	    
+	    title: null,
+	    
+	    pane: {
+	    	center: ['50%', '20%'],
+	    	size: '100%',
+	        startAngle: -90,
+	        endAngle: 90,
             background: {
                 backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
                 innerRadius: '60%',
                 outerRadius: '100%',
                 shape: 'arc'
             }
-        },
+	    },
 
-        tooltip: {
-            enabled: false
-        },
-           
-        // the value axis
-        yAxis: {
-            stops: [
-                [0.35, '#6277f8'], // blue
-                [0.5, '#55BF3B'], // green
-                [0.8, '#DF5353'] // red
-            ],
-            lineWidth: 0,
-          //  minorTickInterval: null,
-           tickPixelInterval: 800,
-          //  tickWidth: 0,
-            title: {
-                y: 90
-            },
+	    tooltip: {
+	    	enabled: false
+	    },
+	       
+	    // the value axis
+	    yAxis: {
+			stops: [
+	        	[0.35, '#6277f8'], // blue
+				[0.5, '#55BF3B'], // green
+	        	[0.8, '#DF5353'] // red
+			],
+			lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+	        title: {
+                y: 70
+	        },
             labels: {
-                y: 2000
+                y: -200
             }        
-        },
+	    },
         
         plotOptions: {
             solidgauge: {
@@ -56,44 +56,39 @@ $(function () {
         }
     };
     
-
     <% (1..5).each do |index| %>
-    // Sensor 1 Gauge
+    // The speed gauge
     $('#container-sensor-<%=index%>').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
-            min: 0,
-            max: 40,
-            title: {
-                text: '<%=@sensors.select{|s| s.id==index}.first.name%>'
-            }       
-        },
-        credits: {
-            enabled: false
-        },
-    
-        series: [{
-            name: '<%=@sensors.select{|s| s.id==index}.first.name%>',
-            data: [<%=20+index%>],
-            dataLabels: {
-                format: '<div style="text-align:center"><span style="font-size:18px;color:' + 
+	        min: 0,
+	        max: 40,
+	        title: {
+	            text: '<%=@sensors.select{|s| s.id==index}.first.name%>'
+	        }       
+	    },
+	    credits: {
+	    	enabled: false
+	    },
+	    series: [{
+	        name: '<%=@sensors.select{|s| s.id==index}.first.name%>',
+	        data: [<%=index+20%>],
+	        dataLabels: {
+	        	format: '<div style="text-align:center"><span style="font-size:15px;color:' + 
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'white') + '">{y}</span><br/>' + 
-                    '<span style="font-size:12px;color:silver">&deg;C</span></div>'
-            },
-            tooltip: {
-                valueSuffix: ' &deg;C'
-            }
-        }]
-    
-    }));
-
-    <% end %>
- 
-
-    
-   
+                   	'<span style="font-size:12px;color:silver">&deg;C</span></div>'
+	        },
+	        tooltip: {
+	            valueSuffix: ' &deg;C'
+	        }
+	    }]
+	
+	}));
+    <%end%>
+   	
+                            
     // Bring life to the dials
     setInterval(function () {
-        // Speed
+    	// Speed
         var chart = $('#container-sensor-1').highcharts();
         if (chart) {
             var point = chart.series[0].points[0],
@@ -105,8 +100,8 @@ $(function () {
                 url: "/home/latest",
                 dataType: "json",
                 success: function(data){
-                    
-                    for (var i = 1; i <= 5; i++) { 
+                	
+          			for (var i = 1; i <= 5; i++) { 
                         sensor = eval("data.sensor"+i);
                        // alert($('#container-sensor-'+i).highcharts())
                         $('#container-sensor-'+i).highcharts().series[0].points[0].update(sensor.y);
@@ -125,7 +120,6 @@ $(function () {
      
     }, <%=Setting.where("key=?","check_frequency").first.value.to_i*1000%>);  
     
-    
-    
+	
 });
 </script>

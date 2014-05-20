@@ -37,11 +37,11 @@ def latest
 
 
 	render :json => {
-		sensor1: {x: @temperature.created_at.to_i*1000,  y: ("%.2f" % (@temperature.value*@sensors.select{|s| s.id==1}.first.calibration/100)).to_f},
-		sensor2: {x: @temperature2.created_at.to_i*1000, y: ("%.2f" % (@temperature2.value*@sensors.select{|s| s.id==2}.first.calibration/100)).to_f},
-		sensor3: {x: @temperature3.created_at.to_i*1000, y: ("%.2f" % (@temperature3.value*@sensors.select{|s| s.id==3}.first.calibration/100)).to_f},
-		sensor4: {x: @temperature4.created_at.to_i*1000, y: ("%.2f" % (@temperature4.value*@sensors.select{|s| s.id==4}.first.calibration/100)).to_f},
-		sensor5: {x: @temperature5.created_at.to_i*1000, y: ("%.2f" % (@temperature5.value*@sensors.select{|s| s.id==5}.first.calibration/100)).to_f},
+		sensor1: {x: @temperature.created_at.to_i*1000,  y: ("%.1f" % (@temperature.value*@sensors.select{|s| s.id==1}.first.calibration/100)).to_f},
+		sensor2: {x: @temperature2.created_at.to_i*1000, y: ("%.1f" % (@temperature2.value*@sensors.select{|s| s.id==2}.first.calibration/100)).to_f},
+		sensor3: {x: @temperature3.created_at.to_i*1000, y: ("%.1f" % (@temperature3.value*@sensors.select{|s| s.id==3}.first.calibration/100)).to_f},
+		sensor4: {x: @temperature4.created_at.to_i*1000, y: ("%.1f" % (@temperature4.value*@sensors.select{|s| s.id==4}.first.calibration/100)).to_f},
+		sensor5: {x: @temperature5.created_at.to_i*1000, y: ("%.1f" % (@temperature5.value*@sensors.select{|s| s.id==5}.first.calibration/100)).to_f},
 	}
 end
 
