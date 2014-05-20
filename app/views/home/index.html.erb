@@ -9,7 +9,7 @@ $(function () {
         });
     
         var chart;
-        $('#container').highcharts({
+        $('#container-graph').highcharts({
             chart: {
                 type: 'spline',
                 zoomType: 'x',
@@ -51,7 +51,7 @@ $(function () {
                 }
             },
             title: {
-                text: 'Live Heating'
+                text: 'Meadowcroft Heating'
             },
             credits: {
                 enabled: false
@@ -189,11 +189,16 @@ $(function () {
 
 
 <div class="row">
-  <div class="small-12 large-12 columns">
-    <div id="container">
-        
+    <div class="small-12 large-12 columns">
+        &nbsp;
     </div>
-  </div>
+</div>
+
+<div class="row">
+    <div class="small-12 large-12 columns">
+        <div id="container-graph">
+        </div>
+    </div>
 </div>
 
 

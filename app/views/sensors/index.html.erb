@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Unique</th>
       <th>Calibration</th>
+      <th>Average</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,12 @@
         <td><%= sensor.name %></td>
         <td><%= sensor.unique_id %></td>
         <td><%= sensor.calibration %></td>
+    <td> <%list =  sensor.temperatures.map{|m| m.value}%>
+
+    <%=list.reduce(:+).to_f / list.size %></td>
+
+
+
         <td><%= link_to 'Show', sensor %></td>
         <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
         <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
