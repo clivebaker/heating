@@ -9,6 +9,10 @@
   <strong>Unique:</strong>
   <%= @sensor.unique_id %>
 </p>
+<p>
+  <strong>Calibration:</strong>
+  <%= @sensor.calibration %>
+</p>
 
 <%= link_to 'Edit', edit_sensor_path(@sensor) %> |
 <%= link_to 'Back', sensors_path %>

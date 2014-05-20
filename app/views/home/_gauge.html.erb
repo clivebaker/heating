@@ -10,7 +10,7 @@
 	    title: null,
 	    
 	    pane: {
-	    	center: ['50%', '85%'],
+	    	center: ['50%', '20%'],
 	    	size: '100%',
 	        startAngle: -90,
 	        endAngle: 90,
@@ -38,17 +38,17 @@
             tickPixelInterval: 400,
             tickWidth: 0,
 	        title: {
-                y: -70
+                y: 70
 	        },
             labels: {
-                y: 16
+                y: -200
             }        
 	    },
         
         plotOptions: {
             solidgauge: {
                 dataLabels: {
-                    y: -30,
+                    y: -20,
                     borderWidth: 0,
                     useHTML: true
                 }
@@ -56,25 +56,24 @@
         }
     };
     
+    <% (1..5).each do |index| %>
     // The speed gauge
-    $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
+    $('#container-sensor-<%=index%>').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
 	        min: 0,
 	        max: 40,
 	        title: {
-	            text: 'Current Temp'
+	            text: '<%=@sensors.select{|s| s.id==index}.first.name%>'
 	        }       
 	    },
-
 	    credits: {
 	    	enabled: false
 	    },
-	
 	    series: [{
-	        name: 'Temperature',
-	        data: [20],
+	        name: '<%=@sensors.select{|s| s.id==index}.first.name%>',
+	        data: [<%=index+20%>],
 	        dataLabels: {
-	        	format: '<div style="text-align:center"><span style="font-size:20px;color:' + 
+	        	format: '<div style="text-align:center"><span style="font-size:15px;color:' + 
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'white') + '">{y}</span><br/>' + 
                    	'<span style="font-size:12px;color:silver">&deg;C</span></div>'
 	        },
@@ -84,13 +83,13 @@
 	    }]
 	
 	}));
-    
+    <%end%>
    	
                             
     // Bring life to the dials
     setInterval(function () {
     	// Speed
-        var chart = $('#container-speed').highcharts();
+        var chart = $('#container-sensor-1').highcharts();
         if (chart) {
             var point = chart.series[0].points[0],
                 newVal;
@@ -101,9 +100,14 @@
                 url: "/home/latest",
                 dataType: "json",
                 success: function(data){
-                    newVal = data.y
-                    point.update(newVal);
-                         
+                	
+          			for (var i = 1; i <= 5; i++) { 
+                        sensor = eval("data.sensor"+i);
+                       // alert($('#container-sensor-'+i).highcharts())
+                        $('#container-sensor-'+i).highcharts().series[0].points[0].update(sensor.y);
+
+                    }
+     
                 }        
             });
 

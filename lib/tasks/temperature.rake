@@ -10,7 +10,10 @@ namespace :temperature do
 
       while true do 
         wait_time = Setting.where("key=?","check_frequency").first.value.to_i
-        puts "Created: #{Temperature.create(value: rand(210..250)/10.to_f).inspect} Next one in #{wait_time} seconds"
+        
+        (1..5).each do |index|
+          puts "Created: #{Temperature.create(sensor_id: index, value: rand(210..250)/10.to_f).inspect} Next one in #{wait_time} seconds"
+        end
         sleep wait_time
       end
 
@@ -28,8 +31,10 @@ namespace :temperature do
         filename = "/sys/bus/w1/devices/#{sensor.unique_id}/w1_slave"
       	f = File.read(filename)
     		temp =  f[f.index("t=")+2,7].to_f/1000
-    		t = Temperature.create(value: temp, sensor_id: sensor.id)
-        puts "Created: #{t.inspect}"
+        if temp > 0 && temp < 50
+    		  t = Temperature.create(value: temp, sensor_id: sensor.id)
+          puts "Created: #{t.inspect}"
+        end
       end
 
       sleep Setting.where("key=?","check_frequency").first.value.to_i
