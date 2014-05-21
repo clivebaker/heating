@@ -13,7 +13,7 @@ $(function () {
             chart: {
                 type: 'spline',
                 zoomType: 'x',
-                animation: Highcharts.svg, // don't animate in old IE
+                //animation: Highcharts.svg, // don't animate in old IE :MEMORY LEAK
                 marginRight: 10,
                 events: {
                     load: function() {
@@ -31,18 +31,25 @@ $(function () {
                                     dataType: "json",
                                     success: function(data){
                                         
+                                        //line graph
                                         for (var i = 1; i <= 5; i++) { 
                                             sensor = eval("data.sensor"+i);
-                                           //alert(sensor.x)
                                             x = sensor.x
                                             y = sensor.y
-
-
-                                        series_arr.series[i-1].addPoint([x, y], true, true);
-                                  
-
+                                            series_arr.series[i-1].addPoint([x, y], false, true);
                                         }
-                                       // alert("data:" + x + ", " + y) // Will alert Max
+                                        series_arr.redraw();
+
+                                        // Gauges
+                                        for (var i = 1; i <= 5; i++) { 
+                                            sensor = eval("data.sensor"+i);
+                                            $('#container-sensor-'+i).highcharts().series[0].points[0].update(sensor.y);
+                                        }
+
+
+
+
+
                                     }        
                                 });
                             
@@ -94,7 +101,7 @@ $(function () {
                     var data = [], time = (new Date()).getTime(), i;
     				var data=[
 
-<%= raw @temperatures.map{|s| {y: s.value*@sensors.select{|s| s.id==1}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+<%= raw @temperatures.select{|s| s.sensor_id == 1}.map{|s| {y: s.value*@sensors.select{|s| s.id==1}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
 ]	
                     return data;
                 })(),
@@ -111,7 +118,7 @@ $(function () {
                     var data = [], time = (new Date()).getTime(), i;
                     var data=[
 
-<%= raw @temperatures2.map{|s| {y: s.value*@sensors.select{|s| s.id==2}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+<%= raw @temperatures.select{|s| s.sensor_id == 2}.map{|s| {y: s.value*@sensors.select{|s| s.id==2}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
 ]   
                     return data;
                 })(),
@@ -129,7 +136,7 @@ $(function () {
                     var data = [], time = (new Date()).getTime(), i;
                     var data=[
 
-<%= raw @temperatures3.map{|s| {y: s.value*@sensors.select{|s| s.id==3}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+<%= raw @temperatures.select{|s| s.sensor_id == 3}.map{|s| {y: s.value*@sensors.select{|s| s.id==3}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
 ]   
                     return data;
                 })(),
@@ -147,7 +154,7 @@ $(function () {
                     var data = [], time = (new Date()).getTime(), i;
                     var data=[
 
-<%= raw @temperatures4.map{|s| {y: s.value*@sensors.select{|s| s.id==4}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+<%= raw @temperatures.select{|s| s.sensor_id == 4}.map{|s| {y: s.value*@sensors.select{|s| s.id==4}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
 ]   
                     return data;
                 })(),
@@ -165,7 +172,7 @@ $(function () {
                     var data = [], time = (new Date()).getTime(), i;
                     var data=[
 
-<%= raw @temperatures5.map{|s| {y: s.value*@sensors.select{|s| s.id==5}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
+<%= raw @temperatures.select{|s| s.sensor_id == 5}.map{|s| {y: s.value*@sensors.select{|s| s.id==5}.first.calibration/100, x: s.created_at.to_i*1000 }.to_json}.join(",") %>
 ]   
                     return data;
                 })(),

@@ -91,39 +91,39 @@ $(function () {
 
     
    
-    // Bring life to the dials
-    setInterval(function () {
-        // Speed
-        var chart = $('#container-sensor-1').highcharts();
-        if (chart) {
-            var point = chart.series[0].points[0],
-                newVal;
+    // // Bring life to the dials
+    // setInterval(function () {
+    //     // Speed
+    //     var chart = $('#container-sensor-1').highcharts();
+    //     if (chart) {
+    //         var point = chart.series[0].points[0],
+    //             newVal;
 
-            var x = 0 
-            $.ajax({
-                type: "GET",
-                url: "/home/latest",
-                dataType: "json",
-                success: function(data){
+    //         var x = 0 
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/home/latest",
+    //             dataType: "json",
+    //             success: function(data){
                     
-                    for (var i = 1; i <= 5; i++) { 
-                        sensor = eval("data.sensor"+i);
-                       // alert($('#container-sensor-'+i).highcharts())
-                        $('#container-sensor-'+i).highcharts().series[0].points[0].update(sensor.y);
+    //                 for (var i = 1; i <= 5; i++) { 
+    //                     sensor = eval("data.sensor"+i);
+    //                    // alert($('#container-sensor-'+i).highcharts())
+    //                     $('#container-sensor-'+i).highcharts().series[0].points[0].update(sensor.y);
 
-                    }
+    //                 }
      
-                }        
-            });
+    //             }        
+    //         });
 
     
 
             
-        }
+    //     }
 
 
      
-    }, <%=Setting.where("key=?","check_frequency").first.value.to_i*1000%>);  
+    // }, <%=Setting.where("key=?","check_frequency").first.value.to_i*1000%>);  
     
     
     
