@@ -34,6 +34,7 @@ gem 'therubyracer'
 
 
 gem 'capistrano', '~> 3.2.0'
+gem 'capistrano-rvm'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
 
