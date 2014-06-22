@@ -17,6 +17,7 @@
 //= require highcharts/highcharts-more 
 //= require highcharts/themes/gray
 //= require highcharts/modules/solid-gauge
+//= require d3
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
